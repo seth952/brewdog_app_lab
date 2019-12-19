@@ -3,6 +3,8 @@
     <h1>Brewdog</h1>
     <beer-list :beers="beers"/>
     <beer-detail :beer="selectedBeer"/>
+    <h2>Favorite Beers</h2>
+    <beer-list :beers="favouriteBeers"/>
   </div>
 </template>
 <script>
@@ -14,7 +16,8 @@ export default {
   data(){
     return {
       beers: [],
-      selectedBeer: null
+      selectedBeer: null,
+      favouriteBeers: []
     }
   },
   mounted() {
@@ -25,6 +28,13 @@ export default {
 
     eventBus.$on('select-beer', (beer) => {
       this.selectedBeer = beer
+    }),
+    eventBus.$on('add-favourite', (beer) => {
+      console.log('recieved', beer);
+      if (!this.favouriteBeers.includes(beer)){
+        this.favouriteBeers.push(beer)
+      }
+
     })
   },
   components: {
